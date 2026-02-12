@@ -28,6 +28,19 @@ const RIVAL_DRIVERS = [
   { name: 'Jonas Lunde', seed: 1540 },
 ];
 
+const RACE_CALENDAR = [
+  { name: 'Bahrain GP', date: '2026-03-08T15:00:00Z' },
+  { name: 'Saudi Arabian GP', date: '2026-03-15T17:00:00Z' },
+  { name: 'Australian GP', date: '2026-03-29T04:00:00Z' },
+  { name: 'Japanese GP', date: '2026-04-12T05:00:00Z' },
+  { name: 'Miami GP', date: '2026-05-03T20:00:00Z' },
+  { name: 'Monaco GP', date: '2026-06-07T13:00:00Z' },
+  { name: 'British GP', date: '2026-07-05T14:00:00Z' },
+  { name: 'Italian GP', date: '2026-09-06T14:00:00Z' },
+  { name: 'Singapore GP', date: '2026-10-11T12:00:00Z' },
+  { name: 'Abu Dhabi GP', date: '2026-12-06T13:00:00Z' },
+];
+
 const el = {
   profileSetup: document.getElementById('profileSetup'),
   dashboard: document.getElementById('dashboard'),
@@ -65,6 +78,12 @@ const el = {
   leaderboardList: document.getElementById('leaderboardList'),
   toast: document.getElementById('toast'),
   sessionLine: document.getElementById('sessionLine'),
+  nextRaceName: document.getElementById('nextRaceName'),
+  nextRaceDate: document.getElementById('nextRaceDate'),
+  countdownLabel: document.getElementById('countdownLabel'),
+  seasonWins: document.getElementById('seasonWins'),
+  avgPointsPerLog: document.getElementById('avgPointsPerLog'),
+  paceLabel: document.getElementById('paceLabel'),
 };
 
 let state = loadState();
@@ -256,6 +275,7 @@ function render() {
   const stats = getStatsForSeason(selectedSeason);
   const allStats = getAllTimeStats();
   renderTerms();
+  renderRaceHub(stats);
 
   el.profileChip.textContent = state.profile.nickname || state.profile.name;
   el.totalPoints.textContent = formatNumber(stats.totalPoints);
@@ -272,6 +292,43 @@ function render() {
   renderActivity(stats.latestLogs);
   renderBadges(stats, allStats);
   renderLeaderboard(stats.totalPoints);
+}
+
+function renderRaceHub(stats) {
+  const upcomingRace = getUpcomingRace();
+  if (upcomingRace) {
+    el.nextRaceName.textContent = upcomingRace.name;
+    el.nextRaceDate.textContent = new Date(upcomingRace.date).toLocaleString(undefined, {
+      day: '2-digit',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    el.countdownLabel.textContent = formatCountdown(upcomingRace.date);
+  } else {
+    el.nextRaceName.textContent = 'Season complete';
+    el.nextRaceDate.textContent = '--';
+    el.countdownLabel.textContent = 'See you next year';
+  }
+
+  const wins = Math.floor(stats.totalPoints / 900);
+  const average = stats.logsCount ? Math.round(stats.totalPoints / stats.logsCount) : 0;
+  el.seasonWins.textContent = String(wins);
+  el.avgPointsPerLog.textContent = String(average);
+  el.paceLabel.textContent = average >= 130 ? 'Attack' : average >= 95 ? 'Balanced' : 'Build-up';
+}
+
+function getUpcomingRace() {
+  const now = Date.now();
+  return RACE_CALENDAR.find((race) => new Date(race.date).getTime() > now) || null;
+}
+
+function formatCountdown(dateISO) {
+  const diff = new Date(dateISO).getTime() - Date.now();
+  if (diff <= 0) return 'Live now';
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  return `${days}d ${hours}h`;
 }
 
 
