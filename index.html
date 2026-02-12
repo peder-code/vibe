@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Race Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <section id="profileSetup" class="panel hidden" aria-labelledby="profileTitle">
+        <h1 id="profileTitle">Welcome to Sales Race Tracker</h1>
+        <p class="muted">Set up your driver profile to start tracking your personal sales momentum.</p>
+        <form id="profileForm" class="stack-md">
+          <label>
+            Name *
+            <input id="nameInput" name="name" required maxlength="40" placeholder="Your name" />
+          </label>
+          <label>
+            Nickname
+            <input id="nicknameInput" name="nickname" maxlength="40" placeholder="Optional" />
+          </label>
+          <label>
+            Accent Theme
+            <select id="accentSelect" name="accentTheme">
+              <option value="f1-red">F1 Black / Red</option>
+              <option value="ice-blue">Ice Blue</option>
+              <option value="gold">Champagne Gold</option>
+            </select>
+          </label>
+          <label class="inline-control">
+            <input id="raceModeInput" name="raceMode" type="checkbox" checked />
+            Race Mode
+          </label>
+          <button class="btn primary" type="submit">Save Profile</button>
+        </form>
+      </section>
+
+      <section id="dashboard" class="hidden" aria-live="polite">
+        <header class="topbar card">
+          <div>
+            <h1>Sales Race Tracker</h1>
+            <p id="sessionLine" class="muted"></p>
+          </div>
+          <div class="topbar-actions">
+            <label class="compact-field">
+              <span data-term="season">Season</span>
+              <select id="seasonSelect"></select>
+            </label>
+            <label class="inline-control race-toggle">
+              <input id="raceModeToggle" type="checkbox" />
+              Race Mode
+            </label>
+            <button id="profileChip" class="chip" type="button"></button>
+            <button id="editProfileBtn" class="btn ghost" type="button">Edit Profile</button>
+          </div>
+        </header>
+
+        <main class="grid">
+          <section class="card stats-card">
+            <div class="hero-value">
+              <span data-term="points">Points</span>
+              <strong id="totalPoints">0</strong>
+            </div>
+            <div class="stats-row">
+              <div>
+                <span data-term="level">Driver Tier</span>
+                <p id="tierValue">1</p>
+              </div>
+              <div>
+                <span data-term="streak">Momentum</span>
+                <p id="streakValue">0</p>
+              </div>
+              <div>
+                <span>Best Momentum</span>
+                <p id="bestStreakValue">0</p>
+              </div>
+            </div>
+            <div>
+              <div class="progress-meta">
+                <span>Progress to next tier</span>
+                <span id="progressLabel">0 / 1000</span>
+              </div>
+              <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+            </div>
+          </section>
+
+          <section class="card quick-log">
+            <div class="section-header">
+              <h2>Quick <span data-term="log">Log</span></h2>
+            </div>
+            <form id="logForm" class="stack-sm">
+              <label>Date
+                <input id="dateInput" type="date" required />
+              </label>
+              <div>
+                <span class="label">Sale type</span>
+                <div class="segmented" role="radiogroup" aria-label="Sale type">
+                  <label><input type="radio" name="saleType" value="new" checked />New</label>
+                  <label><input type="radio" name="saleType" value="used" />Used</label>
+                  <label><input type="radio" name="saleType" value="ev" />EV</label>
+                </div>
+              </div>
+              <label>Value (NOK)
+                <input id="valueInput" type="number" min="0" step="1000" placeholder="650000" required />
+              </label>
+              <details>
+                <summary>Notes (optional)</summary>
+                <label class="sr-only" for="notesInput">Notes</label>
+                <textarea id="notesInput" rows="3" maxlength="280" placeholder="Optional context"></textarea>
+              </details>
+              <button id="logSubmit" class="btn primary" type="submit">Log</button>
+            </form>
+          </section>
+
+          <section class="card badges">
+            <div class="section-header"><h2>Badges</h2></div>
+            <div id="badgesGrid" class="badges-grid"></div>
+          </section>
+
+          <section class="card activity">
+            <div class="section-header"><h2>Latest Activity</h2></div>
+            <div id="activityList" class="activity-list"></div>
+          </section>
+        </main>
+      </section>
+    </div>
+
+    <dialog id="profileModal" class="modal">
+      <form id="profileEditForm" class="stack-md" method="dialog">
+        <h2>Edit Profile</h2>
+        <label>Name *<input id="editNameInput" required maxlength="40" /></label>
+        <label>Nickname<input id="editNicknameInput" maxlength="40" /></label>
+        <label>Accent Theme
+          <select id="editAccentSelect">
+            <option value="f1-red">F1 Black / Red</option>
+            <option value="ice-blue">Ice Blue</option>
+            <option value="gold">Champagne Gold</option>
+          </select>
+        </label>
+        <label class="inline-control"><input id="editRaceModeInput" type="checkbox" />Race Mode</label>
+        <div class="modal-actions">
+          <button class="btn ghost" value="cancel">Cancel</button>
+          <button class="btn primary" id="saveProfileEditBtn" value="default">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="confirmDialog" class="modal">
+      <form method="dialog" class="stack-sm">
+        <h3>Delete log?</h3>
+        <p class="muted">This action cannot be undone.</p>
+        <div class="modal-actions">
+          <button class="btn ghost" value="cancel">Cancel</button>
+          <button id="confirmDeleteBtn" class="btn danger" value="confirm">Delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
