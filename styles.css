@@ -92,7 +92,7 @@ body.race-mode::before {
 .vibe-gallery .section-header p { margin: 0.35rem 0 0; }
 .vibe-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0.75rem;
 }
 .vibe-shot {
@@ -109,7 +109,7 @@ body.race-mode::before {
 }
 .vibe-shot img {
   width: 100%;
-  aspect-ratio: 16 / 6;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   display: block;
 }
@@ -243,7 +243,6 @@ body.race-mode .card { border-top: 1px solid var(--accent); }
 
 @media (max-width: 720px) {
   .topbar { flex-direction: column; }
-  .vibe-grid { grid-template-columns: 1fr; }
   .activity-row { grid-template-columns: 1fr 1fr; }
   .activity-row button { grid-column: span 2; }
 }
