@@ -20,6 +20,14 @@ const BADGES = {
   ],
 };
 
+
+const RIVAL_DRIVERS = [
+  { name: 'Maja Nilsen', seed: 1900 },
+  { name: 'Eirik Hansen', seed: 1780 },
+  { name: 'Sana Berg', seed: 1650 },
+  { name: 'Jonas Lunde', seed: 1540 },
+];
+
 const el = {
   profileSetup: document.getElementById('profileSetup'),
   dashboard: document.getElementById('dashboard'),
@@ -32,6 +40,7 @@ const el = {
   raceModeToggle: document.getElementById('raceModeToggle'),
   profileChip: document.getElementById('profileChip'),
   editProfileBtn: document.getElementById('editProfileBtn'),
+  logoutBtn: document.getElementById('logoutBtn'),
   profileModal: document.getElementById('profileModal'),
   profileEditForm: document.getElementById('profileEditForm'),
   editNameInput: document.getElementById('editNameInput'),
@@ -53,6 +62,7 @@ const el = {
   confirmDialog: document.getElementById('confirmDialog'),
   confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
   badgesGrid: document.getElementById('badgesGrid'),
+  leaderboardList: document.getElementById('leaderboardList'),
   toast: document.getElementById('toast'),
   sessionLine: document.getElementById('sessionLine'),
 };
@@ -67,6 +77,7 @@ init();
 function init() {
   ensureCurrentSeasonExists();
   bindEvents();
+  integrateVisualMood();
   if (!state.profile?.name) {
     el.profileSetup.classList.remove('hidden');
   } else {
@@ -75,6 +86,61 @@ function init() {
   }
   el.dateInput.value = formatDateForInput(new Date());
   el.valueInput.focus();
+}
+
+
+function integrateVisualMood() {
+  const vibeSection = document.querySelector('.vibe-gallery');
+  if (vibeSection) vibeSection.remove();
+
+  injectPremiumVisualStyles();
+
+  insertCardVisual('.stats-card', 'assets/vibe-speed.svg', 'Abstract F1 inspired speed lines behind the performance metrics', 'card-hero-media');
+  insertCardVisual('.leaderboard', 'assets/vibe-podium.svg', 'Premium podium scene reinforcing top seller competition', 'inline-media media-podium');
+  insertCardVisual('.quick-log', 'assets/vibe-electric.svg', 'Electric inspired futuristic grid theme for the logging panel', 'inline-media media-electric');
+}
+
+function insertCardVisual(selector, src, alt, className) {
+  const card = document.querySelector(selector);
+  if (!card || card.querySelector(`.${className.split(' ')[0]}`)) return;
+  const media = document.createElement('figure');
+  media.className = className;
+  media.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy" />`;
+
+  const sectionHeader = card.querySelector('.section-header');
+  if (sectionHeader) {
+    sectionHeader.insertAdjacentElement('afterend', media);
+  } else {
+    card.insertAdjacentElement('afterbegin', media);
+  }
+}
+
+function injectPremiumVisualStyles() {
+  if (document.getElementById('premiumVisualStyles')) return;
+  const style = document.createElement('style');
+  style.id = 'premiumVisualStyles';
+  style.textContent = `
+    .quick-log, .activity, .badges, .leaderboard {
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+    }
+    .card-hero-media, .inline-media {
+      margin: 0 0 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--panel-2);
+    }
+    .card-hero-media img, .inline-media img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .card-hero-media img { aspect-ratio: 18 / 5; }
+    .inline-media img { aspect-ratio: 21 / 5; }
+    .media-podium { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent); }
+    .media-electric { box-shadow: inset 0 0 0 1px color-mix(in srgb, #2c8fff 20%, transparent); }
+  `;
+  document.head.append(style);
 }
 
 function bindEvents() {
@@ -122,6 +188,23 @@ function bindEvents() {
   el.seasonSelect.addEventListener('change', () => {
     selectedSeason = el.seasonSelect.value;
     render();
+  });
+
+
+  el.logoutBtn.addEventListener('click', () => {
+    const ok = window.confirm('Log out and clear this local session?');
+    if (!ok) return;
+    localStorage.removeItem(STORAGE_KEY);
+    state = { profile: null, seasons: {} };
+    selectedSeason = getCurrentSeasonKey();
+    document.body.classList.remove('race-mode', 'accent-f1-red', 'accent-ice-blue', 'accent-gold');
+    el.dashboard.classList.add('hidden');
+    el.profileSetup.classList.remove('hidden');
+    el.profileForm.reset();
+    el.accentSelect.value = 'f1-red';
+    el.raceModeInput.checked = true;
+    el.nameInput.focus();
+    toast('Logged out');
   });
 
   el.logForm.addEventListener('submit', (event) => {
@@ -188,6 +271,33 @@ function render() {
 
   renderActivity(stats.latestLogs);
   renderBadges(stats, allStats);
+  renderLeaderboard(stats.totalPoints);
+}
+
+
+function renderLeaderboard(myPoints) {
+  const myName = state.profile.nickname || state.profile.name;
+  const board = [
+    { name: myName, points: myPoints, me: true },
+    ...RIVAL_DRIVERS.map((rival, index) => {
+      const seasonalBias = ((selectedSeason || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0) % 160) - 80;
+      const variation = (index * 47) - 70;
+      const points = Math.max(120, rival.seed + seasonalBias + variation);
+      return { name: rival.name, points, me: false };
+    }),
+  ].sort((a, b) => b.points - a.points);
+
+  el.leaderboardList.innerHTML = '';
+  board.forEach((entry, idx) => {
+    const row = document.createElement('div');
+    row.className = `leaderboard-row${entry.me ? ' me' : ''}`;
+    row.innerHTML = `
+      <span class="rank">#${idx + 1}</span>
+      <span class="name">${entry.me ? '🫵' : '👤'} ${entry.name}</span>
+      <span class="points">${formatNumber(entry.points)} pts</span>
+    `;
+    el.leaderboardList.append(row);
+  });
 }
 
 function renderTerms() {

@@ -76,7 +76,7 @@ body.race-mode::before {
 .grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
 @media (min-width: 900px) {
   .grid { grid-template-columns: 1.2fr 1fr; }
-  .stats-card, .activity { grid-column: span 2; }
+  .stats-card, .activity, .vibe-gallery { grid-column: span 2; }
 }
 .card { padding: 1rem; }
 .stats-card {
@@ -185,6 +185,42 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent-soft
 .type-used { border-color: color-mix(in srgb, #777 40%, var(--border)); }
 .type-ev { border-color: color-mix(in srgb, #2c8fff 40%, var(--border)); }
 .activity-row button { justify-self: end; }
+
+
+#logoutBtn { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+
+.leaderboard-list {
+  display: grid;
+  gap: 0.55rem;
+}
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.58rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-2);
+}
+.leaderboard-row .rank {
+  width: 1.6rem;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 700;
+}
+.leaderboard-row.me {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+.leaderboard-row .name {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.leaderboard-row .points {
+  font-weight: 700;
+}
 
 .modal {
   border: none; padding: 0; width: min(460px, calc(100% - 2rem));
