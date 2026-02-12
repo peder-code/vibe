@@ -1,0 +1,34 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Electric future city lines</title>
+  <desc id="desc">Neon grid and geometric skyline conveying innovation and momentum for EV and future focused sales.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="800" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071726"/>
+      <stop offset="1" stop-color="#160A2F"/>
+    </linearGradient>
+    <linearGradient id="grid" x1="600" y1="440" x2="600" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4FE4FF" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#4FE4FF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="314" y1="398" x2="896" y2="398" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2B8FFF"/>
+      <stop offset="1" stop-color="#C355FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <g opacity="0.8">
+    <path d="M150 780H1050" stroke="#4FE4FF" stroke-opacity="0.35"/>
+    <path d="M240 730H960" stroke="#4FE4FF" stroke-opacity="0.3"/>
+    <path d="M320 680H880" stroke="#4FE4FF" stroke-opacity="0.24"/>
+    <path d="M395 630H805" stroke="#4FE4FF" stroke-opacity="0.18"/>
+    <path d="M470 580H730" stroke="#4FE4FF" stroke-opacity="0.14"/>
+    <path d="M600 780V525" stroke="url(#grid)"/>
+    <path d="M525 780V560" stroke="url(#grid)"/>
+    <path d="M675 780V560" stroke="url(#grid)"/>
+  </g>
+  <rect x="320" y="376" width="560" height="44" rx="22" fill="url(#neon)"/>
+  <path d="M350 420L420 292H514L450 420H350Z" fill="#35C9FF" fill-opacity="0.78"/>
+  <path d="M522 420L589 247H680L621 420H522Z" fill="#4E9DFF" fill-opacity="0.82"/>
+  <path d="M690 420L764 318H850L786 420H690Z" fill="#AA68FF" fill-opacity="0.75"/>
+  <circle cx="845" cy="210" r="44" fill="#7A53FF" fill-opacity="0.42"/>
+</svg>

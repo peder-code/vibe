@@ -9,14 +9,14 @@ const POINTS = {
 
 const BADGES = {
   season: [
-    { id: 'rising-star', label: 'Rising Star', rule: (s) => s.totalPoints >= 500 },
-    { id: 'closer', label: 'Closer', rule: (s) => s.totalPoints >= 1500 },
-    { id: 'sales-warrior', label: 'Sales Warrior', rule: (s) => s.totalPoints >= 3000 },
-    { id: 'ev-specialist', label: 'EV Specialist', rule: (s) => s.evCount >= 10 },
-    { id: 'early-bird', label: 'Early Bird', rule: (s) => s.earlyBirdCount >= 5 },
+    { id: 'rising-star', label: 'Rising Star', icon: '⭐', rule: (s) => s.totalPoints >= 500 },
+    { id: 'closer', label: 'Closer', icon: '🏁', rule: (s) => s.totalPoints >= 1500 },
+    { id: 'sales-warrior', label: 'Sales Warrior', icon: '🏎️', rule: (s) => s.totalPoints >= 3000 },
+    { id: 'ev-specialist', label: 'EV Specialist', icon: '⚡', rule: (s) => s.evCount >= 10 },
+    { id: 'early-bird', label: 'Early Bird', icon: '🌅', rule: (s) => s.earlyBirdCount >= 5 },
   ],
   allTime: [
-    { id: 'consistency', label: 'Consistency', rule: (_, allStats) => allStats.months1500Plus >= 6 },
+    { id: 'consistency', label: 'Consistency', icon: '🎯', rule: (_, allStats) => allStats.months1500Plus >= 6 },
   ],
 };
 
@@ -217,7 +217,7 @@ function renderActivity(logs) {
     row.className = 'activity-row';
     row.innerHTML = `
       <span>${log.date}</span>
-      <span>${log.type.toUpperCase()}</span>
+      <span class="type-chip type-${log.type}">${saleTypeLabel(log.type)}</span>
       <span>${formatNumber(log.value)} NOK</span>
       <strong>+${log.points}</strong>
       <button class="btn ghost" data-delete-id="${log.id}" aria-label="Delete log">🗑</button>
@@ -228,6 +228,16 @@ function renderActivity(logs) {
     });
     el.activityList.append(row);
   });
+}
+
+
+function saleTypeLabel(type) {
+  const labels = {
+    new: '🏎️ New',
+    used: '🔧 Used',
+    ev: '⚡ EV',
+  };
+  return labels[type] || type.toUpperCase();
 }
 
 function renderBadges(stats, allStats) {
@@ -244,7 +254,7 @@ function renderBadges(stats, allStats) {
       node.classList.add('pop');
       if (state.profile.raceMode) confettiBurst(node);
     }
-    node.innerHTML = `<strong>${badge.label}</strong><p class="muted">${badge.allTime ? 'All-time' : 'Season'}</p>`;
+    node.innerHTML = `<strong>${badge.icon || '🏆'} ${badge.label}</strong><p class="muted">${badge.allTime ? 'All-time' : 'Season'}</p>`;
     el.badgesGrid.append(node);
   });
   prevEarnedBadgeIds = earnedIds;

@@ -1,0 +1,26 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Dynamic race inspired light trails</title>
+  <desc id="desc">Abstract dark backdrop with red and blue speed lines, matching a high performance sales dashboard mood.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#090C14"/>
+      <stop offset="1" stop-color="#101827"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(220 130) rotate(44) scale(620 520)">
+      <stop stop-color="#2B8FFF" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#2B8FFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="trail" x1="105" y1="606" x2="1088" y2="224" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E10600"/>
+      <stop offset="0.42" stop-color="#FF5A56"/>
+      <stop offset="1" stop-color="#FFD9D8" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <ellipse cx="240" cy="190" rx="420" ry="330" fill="url(#glow)"/>
+  <path d="M104 604C360 552 634 466 1090 229" stroke="url(#trail)" stroke-width="30" stroke-linecap="round" opacity="0.95"/>
+  <path d="M90 678C420 606 648 491 1128 300" stroke="#2B8FFF" stroke-opacity="0.45" stroke-width="10" stroke-linecap="round"/>
+  <path d="M132 546C414 493 632 408 1060 170" stroke="#FFFFFF" stroke-opacity="0.26" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="1038" cy="251" r="9" fill="#fff"/>
+  <circle cx="1067" cy="234" r="5" fill="#fff" fill-opacity="0.74"/>
+</svg>
