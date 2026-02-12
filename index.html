@@ -39,7 +39,7 @@
       <section id="dashboard" class="hidden" aria-live="polite">
         <header class="topbar card">
           <div>
-            <h1>Sales Race Tracker</h1>
+            <h1 class="brand"><img src="assets/icon-flag.svg" alt="" aria-hidden="true" />Sales Race Tracker</h1>
             <p id="sessionLine" class="muted"></p>
           </div>
           <div class="topbar-actions">
@@ -56,23 +56,44 @@
           </div>
         </header>
 
+        <section class="card vibe-gallery" aria-labelledby="vibeGalleryTitle">
+          <div class="section-header">
+            <h2 id="vibeGalleryTitle">Visual Vibe</h2>
+            <p class="muted">Moodboards tuned for speed, premium wins and electric innovation.</p>
+          </div>
+          <div class="vibe-grid">
+            <figure class="vibe-shot">
+              <img src="assets/vibe-speed.svg" alt="Dynamic speed trails in dark red and blue tones" loading="lazy" />
+              <figcaption>Race Pulse</figcaption>
+            </figure>
+            <figure class="vibe-shot">
+              <img src="assets/vibe-podium.svg" alt="Golden podium with spotlight and victory emblem" loading="lazy" />
+              <figcaption>Premium Podium</figcaption>
+            </figure>
+            <figure class="vibe-shot">
+              <img src="assets/vibe-electric.svg" alt="Futuristic neon skyline and electric grid lines" loading="lazy" />
+              <figcaption>Electric Horizon</figcaption>
+            </figure>
+          </div>
+        </section>
+
         <main class="grid">
           <section class="card stats-card">
             <div class="hero-value">
-              <span data-term="points">Points</span>
+              <span class="metric-heading"><img src="assets/icon-trophy.svg" alt="" aria-hidden="true" /><span data-term="points">Points</span></span>
               <strong id="totalPoints">0</strong>
             </div>
             <div class="stats-row">
               <div>
-                <span data-term="level">Driver Tier</span>
+                <span class="metric-heading"><img src="assets/icon-flag.svg" alt="" aria-hidden="true" /><span data-term="level">Driver Tier</span></span>
                 <p id="tierValue">1</p>
               </div>
               <div>
-                <span data-term="streak">Momentum</span>
+                <span class="metric-heading"><img src="assets/icon-speed.svg" alt="" aria-hidden="true" /><span data-term="streak">Momentum</span></span>
                 <p id="streakValue">0</p>
               </div>
               <div>
-                <span>Best Momentum</span>
+                <span class="metric-heading"><img src="assets/icon-bolt.svg" alt="" aria-hidden="true" /><span>Best Momentum</span></span>
                 <p id="bestStreakValue">0</p>
               </div>
             </div>
@@ -87,7 +108,7 @@
 
           <section class="card quick-log">
             <div class="section-header">
-              <h2>Quick <span data-term="log">Log</span></h2>
+              <h2 class="heading-icon"><img src="assets/icon-flag.svg" alt="" aria-hidden="true" />Quick <span data-term="log">Log</span></h2>
             </div>
             <form id="logForm" class="stack-sm">
               <label>Date
@@ -114,12 +135,12 @@
           </section>
 
           <section class="card badges">
-            <div class="section-header"><h2>Badges</h2></div>
+            <div class="section-header"><h2 class="heading-icon"><img src="assets/icon-trophy.svg" alt="" aria-hidden="true" />Badges</h2></div>
             <div id="badgesGrid" class="badges-grid"></div>
           </section>
 
           <section class="card activity">
-            <div class="section-header"><h2>Latest Activity</h2></div>
+            <div class="section-header"><h2 class="heading-icon"><img src="assets/icon-speed.svg" alt="" aria-hidden="true" />Latest Activity</h2></div>
             <div id="activityList" class="activity-list"></div>
           </section>
         </main>
