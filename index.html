@@ -56,11 +56,30 @@
             <button id="logoutBtn" class="btn ghost" type="button">Log out</button>
           </div>
         </header>
+
+        <section class="card vibe-gallery" aria-labelledby="vibeGalleryTitle">
+          <div class="section-header">
+            <h2 id="vibeGalleryTitle">Visual Vibe</h2>
+            <p class="muted">Moodboards tuned for speed, premium wins and electric innovation.</p>
+          </div>
+          <div class="vibe-grid">
+            <figure class="vibe-shot">
+              <img src="assets/vibe-speed.svg" alt="Dynamic speed trails in dark red and blue tones" loading="lazy" />
+              <figcaption>Race Pulse</figcaption>
+            </figure>
+            <figure class="vibe-shot">
+              <img src="assets/vibe-podium.svg" alt="Golden podium with spotlight and victory emblem" loading="lazy" />
+              <figcaption>Premium Podium</figcaption>
+            </figure>
+            <figure class="vibe-shot">
+              <img src="assets/vibe-electric.svg" alt="Futuristic neon skyline and electric grid lines" loading="lazy" />
+              <figcaption>Electric Horizon</figcaption>
+            </figure>
+          </div>
+        </section>
+
         <main class="grid">
           <section class="card stats-card">
-            <figure class="card-hero-media">
-              <img src="assets/vibe-speed.svg" alt="Abstract F1 inspired speed lines behind the performance metrics" loading="lazy" />
-            </figure>
             <div class="hero-value">
               <span class="metric-heading"><img src="assets/icon-trophy.svg" alt="" aria-hidden="true" /><span data-term="points">Points</span></span>
               <strong id="totalPoints">0</strong>
@@ -93,9 +112,6 @@
               <h2 class="heading-icon"><img src="assets/icon-trophy.svg" alt="" aria-hidden="true" />Leaderboard</h2>
               <p class="muted">Compare your season pace with other sellers.</p>
             </div>
-            <figure class="inline-media media-podium">
-              <img src="assets/vibe-podium.svg" alt="Premium podium scene reinforcing top seller competition" loading="lazy" />
-            </figure>
             <div id="leaderboardList" class="leaderboard-list"></div>
           </section>
 
@@ -103,9 +119,6 @@
             <div class="section-header">
               <h2 class="heading-icon"><img src="assets/icon-flag.svg" alt="" aria-hidden="true" />Quick <span data-term="log">Log</span></h2>
             </div>
-            <figure class="inline-media media-electric">
-              <img src="assets/vibe-electric.svg" alt="Electric inspired futuristic grid theme for the logging panel" loading="lazy" />
-            </figure>
             <form id="logForm" class="stack-sm">
               <label>Date
                 <input id="dateInput" type="date" required />

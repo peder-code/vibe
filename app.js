@@ -77,6 +77,7 @@ init();
 function init() {
   ensureCurrentSeasonExists();
   bindEvents();
+  integrateVisualMood();
   if (!state.profile?.name) {
     el.profileSetup.classList.remove('hidden');
   } else {
@@ -85,6 +86,61 @@ function init() {
   }
   el.dateInput.value = formatDateForInput(new Date());
   el.valueInput.focus();
+}
+
+
+function integrateVisualMood() {
+  const vibeSection = document.querySelector('.vibe-gallery');
+  if (vibeSection) vibeSection.remove();
+
+  injectPremiumVisualStyles();
+
+  insertCardVisual('.stats-card', 'assets/vibe-speed.svg', 'Abstract F1 inspired speed lines behind the performance metrics', 'card-hero-media');
+  insertCardVisual('.leaderboard', 'assets/vibe-podium.svg', 'Premium podium scene reinforcing top seller competition', 'inline-media media-podium');
+  insertCardVisual('.quick-log', 'assets/vibe-electric.svg', 'Electric inspired futuristic grid theme for the logging panel', 'inline-media media-electric');
+}
+
+function insertCardVisual(selector, src, alt, className) {
+  const card = document.querySelector(selector);
+  if (!card || card.querySelector(`.${className.split(' ')[0]}`)) return;
+  const media = document.createElement('figure');
+  media.className = className;
+  media.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy" />`;
+
+  const sectionHeader = card.querySelector('.section-header');
+  if (sectionHeader) {
+    sectionHeader.insertAdjacentElement('afterend', media);
+  } else {
+    card.insertAdjacentElement('afterbegin', media);
+  }
+}
+
+function injectPremiumVisualStyles() {
+  if (document.getElementById('premiumVisualStyles')) return;
+  const style = document.createElement('style');
+  style.id = 'premiumVisualStyles';
+  style.textContent = `
+    .quick-log, .activity, .badges, .leaderboard {
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+    }
+    .card-hero-media, .inline-media {
+      margin: 0 0 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--panel-2);
+    }
+    .card-hero-media img, .inline-media img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .card-hero-media img { aspect-ratio: 18 / 5; }
+    .inline-media img { aspect-ratio: 21 / 5; }
+    .media-podium { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent); }
+    .media-electric { box-shadow: inset 0 0 0 1px color-mix(in srgb, #2c8fff 20%, transparent); }
+  `;
+  document.head.append(style);
 }
 
 function bindEvents() {
