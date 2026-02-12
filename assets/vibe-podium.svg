@@ -1,0 +1,27 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Premium podium scene</title>
+  <desc id="desc">A stylized podium and spotlight composition to communicate wins, recognition and high-end sales energy.</desc>
+  <defs>
+    <linearGradient id="bg" x1="600" y1="0" x2="600" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A1203"/>
+      <stop offset="1" stop-color="#0E0B06"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="420" y1="250" x2="770" y2="698" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EBC16C"/>
+      <stop offset="1" stop-color="#9B6D1D"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(602 190) rotate(90) scale(284 475)">
+      <stop stop-color="#F6DC8E" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#F6DC8E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <ellipse cx="600" cy="208" rx="500" ry="290" fill="url(#spot)"/>
+  <rect x="270" y="498" width="180" height="178" rx="24" fill="#584018"/>
+  <rect x="510" y="404" width="190" height="272" rx="24" fill="url(#gold)"/>
+  <rect x="760" y="472" width="170" height="204" rx="24" fill="#6E4D1A"/>
+  <path d="M540 404H670L642 334H568L540 404Z" fill="#F4D58A"/>
+  <circle cx="605" cy="279" r="80" fill="#F1CB79" fill-opacity="0.95"/>
+  <circle cx="605" cy="279" r="56" stroke="#9B6D1D" stroke-width="13"/>
+  <path d="M572 279L595 302L638 255" stroke="#7A5316" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

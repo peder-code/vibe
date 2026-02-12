@@ -9,16 +9,24 @@ const POINTS = {
 
 const BADGES = {
   season: [
-    { id: 'rising-star', label: 'Rising Star', rule: (s) => s.totalPoints >= 500 },
-    { id: 'closer', label: 'Closer', rule: (s) => s.totalPoints >= 1500 },
-    { id: 'sales-warrior', label: 'Sales Warrior', rule: (s) => s.totalPoints >= 3000 },
-    { id: 'ev-specialist', label: 'EV Specialist', rule: (s) => s.evCount >= 10 },
-    { id: 'early-bird', label: 'Early Bird', rule: (s) => s.earlyBirdCount >= 5 },
+    { id: 'rising-star', label: 'Rising Star', icon: '⭐', rule: (s) => s.totalPoints >= 500 },
+    { id: 'closer', label: 'Closer', icon: '🏁', rule: (s) => s.totalPoints >= 1500 },
+    { id: 'sales-warrior', label: 'Sales Warrior', icon: '🏎️', rule: (s) => s.totalPoints >= 3000 },
+    { id: 'ev-specialist', label: 'EV Specialist', icon: '⚡', rule: (s) => s.evCount >= 10 },
+    { id: 'early-bird', label: 'Early Bird', icon: '🌅', rule: (s) => s.earlyBirdCount >= 5 },
   ],
   allTime: [
-    { id: 'consistency', label: 'Consistency', rule: (_, allStats) => allStats.months1500Plus >= 6 },
+    { id: 'consistency', label: 'Consistency', icon: '🎯', rule: (_, allStats) => allStats.months1500Plus >= 6 },
   ],
 };
+
+
+const RIVAL_DRIVERS = [
+  { name: 'Maja Nilsen', seed: 1900 },
+  { name: 'Eirik Hansen', seed: 1780 },
+  { name: 'Sana Berg', seed: 1650 },
+  { name: 'Jonas Lunde', seed: 1540 },
+];
 
 const el = {
   profileSetup: document.getElementById('profileSetup'),
@@ -32,6 +40,7 @@ const el = {
   raceModeToggle: document.getElementById('raceModeToggle'),
   profileChip: document.getElementById('profileChip'),
   editProfileBtn: document.getElementById('editProfileBtn'),
+  logoutBtn: document.getElementById('logoutBtn'),
   profileModal: document.getElementById('profileModal'),
   profileEditForm: document.getElementById('profileEditForm'),
   editNameInput: document.getElementById('editNameInput'),
@@ -53,6 +62,7 @@ const el = {
   confirmDialog: document.getElementById('confirmDialog'),
   confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
   badgesGrid: document.getElementById('badgesGrid'),
+  leaderboardList: document.getElementById('leaderboardList'),
   toast: document.getElementById('toast'),
   sessionLine: document.getElementById('sessionLine'),
 };
@@ -124,6 +134,23 @@ function bindEvents() {
     render();
   });
 
+
+  el.logoutBtn.addEventListener('click', () => {
+    const ok = window.confirm('Log out and clear this local session?');
+    if (!ok) return;
+    localStorage.removeItem(STORAGE_KEY);
+    state = { profile: null, seasons: {} };
+    selectedSeason = getCurrentSeasonKey();
+    document.body.classList.remove('race-mode', 'accent-f1-red', 'accent-ice-blue', 'accent-gold');
+    el.dashboard.classList.add('hidden');
+    el.profileSetup.classList.remove('hidden');
+    el.profileForm.reset();
+    el.accentSelect.value = 'f1-red';
+    el.raceModeInput.checked = true;
+    el.nameInput.focus();
+    toast('Logged out');
+  });
+
   el.logForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const type = document.querySelector('input[name="saleType"]:checked').value;
@@ -188,6 +215,33 @@ function render() {
 
   renderActivity(stats.latestLogs);
   renderBadges(stats, allStats);
+  renderLeaderboard(stats.totalPoints);
+}
+
+
+function renderLeaderboard(myPoints) {
+  const myName = state.profile.nickname || state.profile.name;
+  const board = [
+    { name: myName, points: myPoints, me: true },
+    ...RIVAL_DRIVERS.map((rival, index) => {
+      const seasonalBias = ((selectedSeason || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0) % 160) - 80;
+      const variation = (index * 47) - 70;
+      const points = Math.max(120, rival.seed + seasonalBias + variation);
+      return { name: rival.name, points, me: false };
+    }),
+  ].sort((a, b) => b.points - a.points);
+
+  el.leaderboardList.innerHTML = '';
+  board.forEach((entry, idx) => {
+    const row = document.createElement('div');
+    row.className = `leaderboard-row${entry.me ? ' me' : ''}`;
+    row.innerHTML = `
+      <span class="rank">#${idx + 1}</span>
+      <span class="name">${entry.me ? '🫵' : '👤'} ${entry.name}</span>
+      <span class="points">${formatNumber(entry.points)} pts</span>
+    `;
+    el.leaderboardList.append(row);
+  });
 }
 
 function renderTerms() {
@@ -217,7 +271,7 @@ function renderActivity(logs) {
     row.className = 'activity-row';
     row.innerHTML = `
       <span>${log.date}</span>
-      <span>${log.type.toUpperCase()}</span>
+      <span class="type-chip type-${log.type}">${saleTypeLabel(log.type)}</span>
       <span>${formatNumber(log.value)} NOK</span>
       <strong>+${log.points}</strong>
       <button class="btn ghost" data-delete-id="${log.id}" aria-label="Delete log">🗑</button>
@@ -228,6 +282,16 @@ function renderActivity(logs) {
     });
     el.activityList.append(row);
   });
+}
+
+
+function saleTypeLabel(type) {
+  const labels = {
+    new: '🏎️ New',
+    used: '🔧 Used',
+    ev: '⚡ EV',
+  };
+  return labels[type] || type.toUpperCase();
 }
 
 function renderBadges(stats, allStats) {
@@ -244,7 +308,7 @@ function renderBadges(stats, allStats) {
       node.classList.add('pop');
       if (state.profile.raceMode) confettiBurst(node);
     }
-    node.innerHTML = `<strong>${badge.label}</strong><p class="muted">${badge.allTime ? 'All-time' : 'Season'}</p>`;
+    node.innerHTML = `<strong>${badge.icon || '🏆'} ${badge.label}</strong><p class="muted">${badge.allTime ? 'All-time' : 'Season'}</p>`;
     el.badgesGrid.append(node);
   });
   prevEarnedBadgeIds = earnedIds;

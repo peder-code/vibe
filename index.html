@@ -39,7 +39,7 @@
       <section id="dashboard" class="hidden" aria-live="polite">
         <header class="topbar card">
           <div>
-            <h1>Sales Race Tracker</h1>
+            <h1 class="brand"><img src="assets/icon-flag.svg" alt="" aria-hidden="true" />Sales Race Tracker</h1>
             <p id="sessionLine" class="muted"></p>
           </div>
           <div class="topbar-actions">
@@ -53,26 +53,29 @@
             </label>
             <button id="profileChip" class="chip" type="button"></button>
             <button id="editProfileBtn" class="btn ghost" type="button">Edit Profile</button>
+            <button id="logoutBtn" class="btn ghost" type="button">Log out</button>
           </div>
         </header>
-
         <main class="grid">
           <section class="card stats-card">
+            <figure class="card-hero-media">
+              <img src="assets/vibe-speed.svg" alt="Abstract F1 inspired speed lines behind the performance metrics" loading="lazy" />
+            </figure>
             <div class="hero-value">
-              <span data-term="points">Points</span>
+              <span class="metric-heading"><img src="assets/icon-trophy.svg" alt="" aria-hidden="true" /><span data-term="points">Points</span></span>
               <strong id="totalPoints">0</strong>
             </div>
             <div class="stats-row">
               <div>
-                <span data-term="level">Driver Tier</span>
+                <span class="metric-heading"><img src="assets/icon-flag.svg" alt="" aria-hidden="true" /><span data-term="level">Driver Tier</span></span>
                 <p id="tierValue">1</p>
               </div>
               <div>
-                <span data-term="streak">Momentum</span>
+                <span class="metric-heading"><img src="assets/icon-speed.svg" alt="" aria-hidden="true" /><span data-term="streak">Momentum</span></span>
                 <p id="streakValue">0</p>
               </div>
               <div>
-                <span>Best Momentum</span>
+                <span class="metric-heading"><img src="assets/icon-bolt.svg" alt="" aria-hidden="true" /><span>Best Momentum</span></span>
                 <p id="bestStreakValue">0</p>
               </div>
             </div>
@@ -85,10 +88,24 @@
             </div>
           </section>
 
+          <section class="card leaderboard">
+            <div class="section-header">
+              <h2 class="heading-icon"><img src="assets/icon-trophy.svg" alt="" aria-hidden="true" />Leaderboard</h2>
+              <p class="muted">Compare your season pace with other sellers.</p>
+            </div>
+            <figure class="inline-media media-podium">
+              <img src="assets/vibe-podium.svg" alt="Premium podium scene reinforcing top seller competition" loading="lazy" />
+            </figure>
+            <div id="leaderboardList" class="leaderboard-list"></div>
+          </section>
+
           <section class="card quick-log">
             <div class="section-header">
-              <h2>Quick <span data-term="log">Log</span></h2>
+              <h2 class="heading-icon"><img src="assets/icon-flag.svg" alt="" aria-hidden="true" />Quick <span data-term="log">Log</span></h2>
             </div>
+            <figure class="inline-media media-electric">
+              <img src="assets/vibe-electric.svg" alt="Electric inspired futuristic grid theme for the logging panel" loading="lazy" />
+            </figure>
             <form id="logForm" class="stack-sm">
               <label>Date
                 <input id="dateInput" type="date" required />
@@ -114,12 +131,12 @@
           </section>
 
           <section class="card badges">
-            <div class="section-header"><h2>Badges</h2></div>
+            <div class="section-header"><h2 class="heading-icon"><img src="assets/icon-trophy.svg" alt="" aria-hidden="true" />Badges</h2></div>
             <div id="badgesGrid" class="badges-grid"></div>
           </section>
 
           <section class="card activity">
-            <div class="section-header"><h2>Latest Activity</h2></div>
+            <div class="section-header"><h2 class="heading-icon"><img src="assets/icon-speed.svg" alt="" aria-hidden="true" />Latest Activity</h2></div>
             <div id="activityList" class="activity-list"></div>
           </section>
         </main>
