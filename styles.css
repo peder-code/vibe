@@ -69,6 +69,16 @@ body.race-mode::before {
   display: flex; justify-content: space-between; gap: 1rem;
   padding: 1rem; margin-bottom: 1rem;
   backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -1px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 .topbar h1 { margin: 0; font-size: 1.3rem; }
 .topbar-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
@@ -84,6 +94,68 @@ body.race-mode::before {
 }
 .quick-log, .activity, .badges, .vibe-gallery {
   background: color-mix(in srgb, var(--panel) 92%, transparent);
+}
+
+.race-hub {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  background:
+    linear-gradient(115deg, color-mix(in srgb, var(--panel) 90%, #000 10%), var(--panel)),
+    radial-gradient(circle at right top, color-mix(in srgb, var(--accent) 23%, transparent), transparent 45%);
+  position: relative;
+  overflow: hidden;
+}
+
+.race-hub::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--accent) 8%, transparent) 14px 15px);
+  pointer-events: none;
+}
+
+.race-hub > * { position: relative; z-index: 1; }
+.kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.race-hub h2 { margin: 0.3rem 0 0.45rem; font-size: clamp(1.25rem, 2vw, 1.8rem); }
+.race-hub-copy > p { margin-top: 0; }
+
+.race-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+.race-meta strong {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 1rem;
+}
+
+.race-hub-stats {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.race-hub-stats article {
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+  border-radius: 12px;
+  padding: 0.7rem;
+  background: color-mix(in srgb, var(--panel-2) 90%, transparent);
+}
+
+.race-hub-stats strong {
+  display: block;
+  font-size: 1.5rem;
+  margin-top: 0.25rem;
 }
 
 .vibe-gallery { margin-bottom: 1rem; }
@@ -243,6 +315,8 @@ body.race-mode .card { border-top: 1px solid var(--accent); }
 
 @media (max-width: 720px) {
   .topbar { flex-direction: column; }
+  .race-hub { grid-template-columns: 1fr; }
+  .race-meta { grid-template-columns: 1fr; }
   .activity-row { grid-template-columns: 1fr 1fr; }
   .activity-row button { grid-column: span 2; }
 }
