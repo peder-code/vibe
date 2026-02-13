@@ -1,57 +1,71 @@
-# Sales Race Tracker
+# Viral24
 
-Sales Race Tracker is a premium-feel, single-page personal tracker for car salespeople. It is **not** a CRM replacement; it is built for motivation, fast logging, and personal momentum tracking.
+Viral24 is a mobile-first MVP that surfaces the most viral videos from the last 24 hours across YouTube, TikTok, and X, with a plug-in adapter architecture for adding new sources like Instagram Reels.
 
-## What it includes
+## Stack
+- Next.js 14 + TypeScript
+- TailwindCSS
+- framer-motion
+- Vitest (unit tests)
 
-- First-run profile setup (name, nickname, accent theme, Race Mode toggle)
-- Monthly season model (`YYYY-MM`) with current month auto-created
-- Season selector with historical months + all-time view
-- Quick logging flow (date, sale type, value, optional notes)
-- Points engine with configurable rules
-- Driver tier progression (`+1 tier / 1000 points`)
-- Momentum and best momentum streaks
-- Premium badge system (season + all-time)
-- Race Mode terminology + F1-inspired visual theme
-- Full persistence in `localStorage`
+## Features
+- TikTok-style vertical feed with swipe, keyboard nav, and double-tap like.
+- Unified normalized schema:
+  ```ts
+  { id, platform, url, embedUrl, author, caption, hashtags, createdAt, views, likes, shares, comments, score, thumbnailUrl }
+  ```
+- Viral scoring:
+  - `score = weighted_engagement_rate * recency_boost`
+  - weighted engagement combines likes/comments/shares over views.
+- Source adapter pattern:
+  - `adapters/youtube.ts`
+  - `adapters/tiktok.ts`
+  - `adapters/x.ts`
+- API route `/api/feed` with in-memory caching (TTL 10 minutes).
+- Safe fallback behavior (no login scraping / ToS bypassing):
+  - YouTube live mode through official Data API v3.
+  - TikTok + X mock/curated fallback in MVP.
+- Settings and persistence:
+  - Autoplay, data saver, NSFW keyword filter, visible platforms.
+  - Local like/save state persisted in localStorage.
 
-## Run locally
+## Mock mode (default)
+The app is runnable out-of-the-box using fixtures.
 
-### Option 1: Open directly
-Open `index.html` in your browser.
-
-### Option 2: Serve statically (recommended)
-From this folder:
+## Environment variables
+Create `.env.local`:
 
 ```bash
-python3 -m http.server 4173
+MOCK_MODE=true
+YOUTUBE_API_KEY=
 ```
 
-Then open `http://localhost:4173`.
+To enable live YouTube fetching:
 
-## How seasons work
-
-- Each log stores a date (`YYYY-MM-DD`) and maps to a season key (`YYYY-MM`).
-- The app auto-creates the current month season at startup.
-- Selecting **All-time** aggregates logs from all seasons.
-- New month? The app creates that season automatically as soon as the app runs in that month.
-
-## Points rules config
-
-Edit the `POINTS` object in `app.js`:
-
-```js
-const POINTS = {
-  base: { new: 100, used: 80, ev: 120 },
-  highValueThreshold: 600_000,
-  highValueBonus: 20,
-  earlyBirdBonus: 10,
-  tierSize: 1000,
-};
+```bash
+MOCK_MODE=false
+YOUTUBE_API_KEY=your_key_here
 ```
 
-This controls:
-- Base points by sale type
-- Bonus for high-value sales
-- Early-bird bonus (logs before noon)
-- Tier progression size
+## Run locally
+```bash
+npm install
+npm run dev
+```
+Then open `http://localhost:3000`.
+
+## Tests
+```bash
+npm test
+```
+
+## Deploy (Vercel)
+1. Push this repository to GitHub.
+2. Import project into Vercel.
+3. Add env vars (`MOCK_MODE`, `YOUTUBE_API_KEY`) in project settings.
+4. Deploy.
+
+## Notes on platform constraints
+- This MVP uses official/public-safe access only.
+- It avoids scraping behind logins and avoids bypassing rate limits or ToS.
+- TikTok and X use mock fallback in the base MVP.
