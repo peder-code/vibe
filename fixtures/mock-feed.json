@@ -1,0 +1,45 @@
+[
+  {
+    "id": "yt_1",
+    "platform": "youtube",
+    "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+    "embedUrl": "https://www.youtube.com/embed/aqz-KE-bpKQ",
+    "author": "RaceLab",
+    "caption": "F1 pit crew reaction times breakdown in 60s #f1 #engineering",
+    "hashtags": ["f1", "engineering", "shorts"],
+    "createdAt": "2026-02-13T02:00:00.000Z",
+    "views": 820000,
+    "likes": 56000,
+    "shares": 12000,
+    "comments": 4400,
+    "thumbnailUrl": "https://images.unsplash.com/photo-1511882150382-421056c89033?w=800"
+  },
+  {
+    "id": "tt_1",
+    "platform": "tiktok",
+    "url": "https://www.tiktok.com/@creator/video/123",
+    "author": "@trackvision",
+    "caption": "Telemetry overlay that predicts overtakes before they happen",
+    "hashtags": ["ai", "motorsport", "viral"],
+    "createdAt": "2026-02-13T07:15:00.000Z",
+    "views": 540000,
+    "likes": 69000,
+    "shares": 15000,
+    "comments": 8100,
+    "thumbnailUrl": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800"
+  },
+  {
+    "id": "x_1",
+    "platform": "x",
+    "url": "https://x.com/viral/status/123456",
+    "author": "@gridintel",
+    "caption": "New on-board clip: final lap pass from helmet cam.",
+    "hashtags": ["f1", "onboard"],
+    "createdAt": "2026-02-13T09:10:00.000Z",
+    "views": 1200000,
+    "likes": 98000,
+    "shares": 21000,
+    "comments": 9400,
+    "thumbnailUrl": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800"
+  }
+]
